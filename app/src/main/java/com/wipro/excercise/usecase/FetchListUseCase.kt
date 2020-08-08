@@ -1,23 +1,28 @@
 package com.wipro.excercise.usecase
 
 import com.wipro.excercise.data.Response
-import io.reactivex.Observable
+import com.wipro.excercise.networking.APIService
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 class FetchListUseCase(
-    private val observable: Observable<Response>,
+    private val apiService: APIService,
     private val callback: Callback<Response>
 ) :
     UseCase<FetchListUseCase.Input>() {
 
     override fun executeUseCase(input: Input) {
         disposable.add(
-            observable.subscribe({
-                callback.onSuccess(it)
-                dispose()
-            }, {
-                callback.onError(it)
-                dispose()
-            })
+            apiService.fetchList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({
+                    callback.onSuccess(it)
+                    dispose()
+                }, {
+                    callback.onError(it)
+                    dispose()
+                })
         )
     }
 
