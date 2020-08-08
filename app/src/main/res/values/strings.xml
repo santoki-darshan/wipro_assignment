@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Wipro Excercise</string>
+    <string name="app_name">Wipro Exercise</string>
+    <string name="image_info">Image</string>
+    <string name="error_message">Something went wrong, failed to fetch data</string>
 </resources>
